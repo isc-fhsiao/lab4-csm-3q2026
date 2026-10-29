@@ -1,0 +1,27 @@
+Lab 4 CSM (ESFI001, UFABC) - Grupo 3
+Codificação com perdas de áudio e imagem
+
+Esta pasta (lab4/) é o relatório do Lab 4. Ela fica dentro do site do repositório
+lab4-csm-3q2026, cuja página raiz é o portal do grupo com os links dos labs 1 a 4.
+
+Como publicar no Netlify
+- Arrastar a pasta lab4-csm-3q2026 inteira em app.netlify.com/drop, ou
+- ligar o repositório do GitHub a um site no Netlify (o netlify.toml da raiz
+  indica a pasta publicada).
+
+Como atualizar as notas
+- As planilhas da avaliação externa ficam em Lab4_CSM/avaliacoes_externas/
+  (uma por participante). Para incluir novas, copie-as para lá.
+- Rode: python3 analise_lab4.py (na pasta Lab4-CSM (unificado)).
+- O script refaz js/dados.js, os gráficos e os áudios desta pasta.
+
+Conteúdo
+- index.html        relatório
+- css/style.css     estilos (mesma base dos labs anteriores)
+- js/dados.js       dados gerados pelo script
+- js/imagens.js     foto e JPEGs em data URI para o comparador
+- js/app.js         tabelas, gráfico de espectro, teste cego e comparador
+- img/              foto coletiva, JPEGs e gráficos
+- audio/G1 a G4     referência, âncora e versões codificadas em FLAC
+- codigo/           analise_lab4.py
+- dados/            respostas da avaliação externa consolidadas (CSV)

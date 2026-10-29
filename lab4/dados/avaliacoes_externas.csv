@@ -1,0 +1,163 @@
+participante,data,pacote_audio,modalidade,item,condicao_ou_q,nota_0_100,diferenca_0_3,observacao,condicoes_escuta
+P01,2026-10-28,G1,audio,S05.wav,mp3_128k,49,,meioabafado e pouco chiado,Headset sem fio Logitech Zone Vibe 100
+P01,2026-10-28,G1,audio,S02.wav,ANCORA,20,,"ta abafado e com um chiado no fundo, parece que tem interferencia",Headset sem fio Logitech Zone Vibe 100
+P01,2026-10-28,G1,audio,S04.wav,aac_48k,11,,muito chiado e abafado,Headset sem fio Logitech Zone Vibe 100
+P01,2026-10-28,G1,audio,S03.wav,vorbis_128k,77,,chiado mais alto mas nao ta abafado,Headset sem fio Logitech Zone Vibe 100
+P01,2026-10-28,G1,audio,S01.wav,REF_OCULTA,93,,bem proximo do original,Headset sem fio Logitech Zone Vibe 100
+P01,2026-10-28,G1,audio,S06.wav,mp3_48k,0,,ta com um eco no fundo e muito chiado e abafado,Headset sem fio Logitech Zone Vibe 100
+P02,2026-10-28,G1,audio,S01.wav,REF_OCULTA,80,,espectro de voz confuso,Headset sem fio Logitech Zone Vibe 100
+P02,2026-10-28,G1,audio,S04.wav,aac_48k,80,,espectro de voz confuso,Headset sem fio Logitech Zone Vibe 100
+P02,2026-10-28,G1,audio,S02.wav,ANCORA,75,,audio de fundo menos intenso,Headset sem fio Logitech Zone Vibe 100
+P02,2026-10-28,G1,audio,S06.wav,mp3_48k,70,,"descompassada, com chiado",Headset sem fio Logitech Zone Vibe 100
+P02,2026-10-28,G1,audio,S03.wav,vorbis_128k,50,,muito ruido (CHIADO),Headset sem fio Logitech Zone Vibe 100
+P02,2026-10-28,G1,audio,S05.wav,mp3_128k,50,,chiado e voz externa (fora do escopo do audio),Headset sem fio Logitech Zone Vibe 100
+P03,2026-10-28,G1,audio,S06.wav,mp3_48k,60,,Lado esquerdo abafado,Headset sem fio Logitech Zone Vibe 100
+P03,2026-10-28,G1,audio,S02.wav,ANCORA,70,,Lado esquerdo abafado e com chiado,Headset sem fio Logitech Zone Vibe 100
+P03,2026-10-28,G1,audio,S04.wav,aac_48k,80,,Abafado e chiado,Headset sem fio Logitech Zone Vibe 100
+P03,2026-10-28,G1,audio,S05.wav,mp3_128k,60,,Chiado de fundo (ruído),Headset sem fio Logitech Zone Vibe 100
+P03,2026-10-28,G1,audio,S03.wav,vorbis_128k,55,,Mais chiado que os demais (ruidoso),Headset sem fio Logitech Zone Vibe 100
+P03,2026-10-28,G1,audio,S01.wav,REF_OCULTA,50,,"Abafamento, chiado e desbalanço de áudio.",Headset sem fio Logitech Zone Vibe 100
+P04,2026-10-28,G1,audio,S01.wav,REF_OCULTA,95,,Muito próxima da referência; sem mudança grande percebida.,Headset sem fio Logitech Zone Vibe 100
+P04,2026-10-28,G1,audio,S02.wav,ANCORA,40,,Som fechado e sem brilho; voz compreensível.,Headset sem fio Logitech Zone Vibe 100
+P04,2026-10-28,G1,audio,S03.wav,vorbis_128k,80,,Pequeno chiado ou espalhamento junto à voz.,Headset sem fio Logitech Zone Vibe 100
+P04,2026-10-28,G1,audio,S04.wav,aac_48k,55,,Abafamento e perda de detalhes das palavras.,Headset sem fio Logitech Zone Vibe 100
+P04,2026-10-28,G1,audio,S05.wav,mp3_128k,85,,Pequena diferença em relação à referência.,Headset sem fio Logitech Zone Vibe 100
+P04,2026-10-28,G1,audio,S06.wav,mp3_48k,35,,Abafamento e impressão de som metálico.,Headset sem fio Logitech Zone Vibe 100
+P05,2026-10-28,G1,audio,S04.wav,aac_48k,60,,Som tampado; impressão de maior distância.,Headset sem fio Logitech Zone Vibe 100
+P05,2026-10-28,G1,audio,S01.wav,REF_OCULTA,85,,Muito próximo da referência; dúvida sobre a diferença.,Headset sem fio Logitech Zone Vibe 100
+P05,2026-10-28,G1,audio,S06.wav,mp3_48k,40,,Som fechado e áspero junto à voz.,Headset sem fio Logitech Zone Vibe 100
+P05,2026-10-28,G1,audio,S03.wav,vorbis_128k,75,,Pequena diferença; dificuldade em separar ruído original e alteração.,Headset sem fio Logitech Zone Vibe 100
+P05,2026-10-28,G1,audio,S02.wav,ANCORA,50,,Voz mais fechada; perda aparente da parte aguda.,Headset sem fio Logitech Zone Vibe 100
+P05,2026-10-28,G1,audio,S05.wav,mp3_128k,70,,Compreensível; pequena sujeira no som.,Headset sem fio Logitech Zone Vibe 100
+P06,2026-10-28,G2,audio,S01.wav,mp3_128k,93,,Levemente abafado,Utilizando fones de ouvido Platonics Blackwire 3220
+P06,2026-10-28,G2,audio,S03.wav,ANCORA,79,,Som parece distante,Utilizando fones de ouvido Platonics Blackwire 3220
+P06,2026-10-28,G2,audio,S05.wav,vorbis_128k,90,,Bem próximo ao audio original.,Utilizando fones de ouvido Platonics Blackwire 3220
+P06,2026-10-28,G2,audio,S04.wav,mp3_48k,62,,Mais distante do audio original,Utilizando fones de ouvido Platonics Blackwire 3220
+P06,2026-10-28,G2,audio,S02.wav,REF_OCULTA,93,,Boa qualidade parece proximo ao original,Utilizando fones de ouvido Platonics Blackwire 3220
+P06,2026-10-28,G2,audio,S06.wav,aac_48k,,,"Audio não está bom, parece distante do original",Utilizando fones de ouvido Platonics Blackwire 3220
+P07,2026-10-28,G2,audio,S01.wav,mp3_128k,100,,Não percebi diferença.,Sala fechada utilizando fones Platonics Blackwire 3220
+P07,2026-10-28,G2,audio,S06.wav,aac_48k,43,,Um pouco mais abafado.,Sala fechada utilizando fones Platonics Blackwire 3220
+P07,2026-10-28,G2,audio,S04.wav,mp3_48k,35,,Faltou nitidez também parece abafado.,Sala fechada utilizando fones Platonics Blackwire 3220
+P07,2026-10-28,G2,audio,S02.wav,REF_OCULTA,73,,Um pouco melhor com relação aos demais.,Sala fechada utilizando fones Platonics Blackwire 3220
+P07,2026-10-28,G2,audio,S03.wav,ANCORA,58,,Audio muito próximo do microfone.,Sala fechada utilizando fones Platonics Blackwire 3220
+P07,2026-10-28,G2,audio,S05.wav,vorbis_128k,100,,Nenhuma diferença,Sala fechada utilizando fones Platonics Blackwire 3220
+P08,2026-10-28,G2,audio,S05.wav,vorbis_128k,85,,"Muito parecida com a original, um pouco pior.",Sala fechada utilizando fones Platonics Blackwire 3220
+P08,2026-10-28,G2,audio,S02.wav,REF_OCULTA,90,,Qualidade melhor.,Sala fechada utilizando fones Platonics Blackwire 3220
+P08,2026-10-28,G2,audio,S06.wav,aac_48k,35,,"Audio está bem pior, no começo parece igual mas quando a voz surge está bem ruim.",Sala fechada utilizando fones Platonics Blackwire 3220
+P08,2026-10-28,G2,audio,S04.wav,mp3_48k,40,,Voz parece abafada.,Sala fechada utilizando fones Platonics Blackwire 3220
+P08,2026-10-28,G2,audio,S03.wav,ANCORA,50,,"Também parece abafado, mas a voz parece melhor.",Sala fechada utilizando fones Platonics Blackwire 3220
+P08,2026-10-28,G2,audio,S01.wav,mp3_128k,92,,O áudio parece mais limpo.,Sala fechada utilizando fones Platonics Blackwire 3220
+P09,2026-10-28,G2,audio,S02.wav,REF_OCULTA,100,,Nenhuma diferença,Sala fechada utilizando fones Platonics Blackwire 3220
+P09,2026-10-28,G2,audio,S01.wav,mp3_128k,100,,Nenhuma diferença,Sala fechada utilizando fones Platonics Blackwire 3220
+P09,2026-10-28,G2,audio,S04.wav,mp3_48k,25,,Audio meio robótico,Sala fechada utilizando fones Platonics Blackwire 3220
+P09,2026-10-28,G2,audio,S06.wav,aac_48k,35,,Também meio robótico,Sala fechada utilizando fones Platonics Blackwire 3220
+P09,2026-10-28,G2,audio,S05.wav,vorbis_128k,100,,Nenhuma diferença,Sala fechada utilizando fones Platonics Blackwire 3220
+P09,2026-10-28,G2,audio,S03.wav,ANCORA,45,,Audio um pouco abafado,Sala fechada utilizando fones Platonics Blackwire 3220
+P10,2026-10-28,G2,audio,S01.wav,mp3_128k,70,,Percebi um pouco de eco.,Sala fechada utilizando fones Platonics Blackwire 3220.
+P10,2026-10-28,G2,audio,S03.wav,ANCORA,90,,Não percebi diferença.,Sala fechada utilizando fones Platonics Blackwire 3220.
+P10,2026-10-28,G2,audio,S04.wav,mp3_48k,60,,Abafamento.,Sala fechada utilizando fones Platonics Blackwire 3220.
+P10,2026-10-28,G2,audio,S06.wav,aac_48k,50,,Mais abafamento em relação ao três.,Sala fechada utilizando fones Platonics Blackwire 3220.
+P10,2026-10-28,G2,audio,S02.wav,REF_OCULTA,95,,"Muito parecido com a referência, mais nítido que o original.",Sala fechada utilizando fones Platonics Blackwire 3220.
+P10,2026-10-28,G2,audio,S05.wav,vorbis_128k,,,Também bem parecido não percebi diferença.,Sala fechada utilizando fones Platonics Blackwire 3220.
+P11,2026-10-28,G3,audio,S02.wav,REF_OCULTA,82,,Nenhuma diferença,Fone: TWS350 Ambiente: quarto silencioso
+P11,2026-10-28,G3,audio,S06.wav,ANCORA,31,,"Abafamento, chiado",Fone: TWS350 Ambiente: quarto silencioso
+P11,2026-10-28,G3,audio,S04.wav,mp3_128k,100,,Nenhuma diferença,Fone: TWS350 Ambiente: quarto silencioso
+P11,2026-10-28,G3,audio,S05.wav,mp3_48k,11,,"Abafamento, chiado, qualidade ruim",Fone: TWS350 Ambiente: quarto silencioso
+P11,2026-10-28,G3,audio,S01.wav,aac_48k,35,,Voz ficou de fundo,Fone: TWS350 Ambiente: quarto silencioso
+P11,2026-10-28,G3,audio,S03.wav,vorbis_128k,100,,Nenhuma diferença,Fone: TWS350 Ambiente: quarto silencioso
+P12,2026-10-28,G3,audio,S06.wav,ANCORA,67,,"Menos chiado, porém voz mais abafada.","Usei um headphone Soundcore com noise cancelation ligado, suas ""almofadas"" auriculares estão bem desgastadas. Estava em uma sala de biblioteca com 3 pessoas conversando."
+P12,2026-10-28,G3,audio,S05.wav,mp3_48k,25,,"Chiado agudo, voz um pouco robotizada e não muito clara.","Usei um headphone Soundcore com noise cancelation ligado, suas ""almofadas"" auriculares estão bem desgastadas. Estava em uma sala de biblioteca com 3 pessoas conversando."
+P12,2026-10-28,G3,audio,S03.wav,vorbis_128k,98,,Áudio muito semelhante ao original.,"Usei um headphone Soundcore com noise cancelation ligado, suas ""almofadas"" auriculares estão bem desgastadas. Estava em uma sala de biblioteca com 3 pessoas conversando."
+P12,2026-10-28,G3,audio,S04.wav,mp3_128k,95,,Também muito semelhante ao original.,"Usei um headphone Soundcore com noise cancelation ligado, suas ""almofadas"" auriculares estão bem desgastadas. Estava em uma sala de biblioteca com 3 pessoas conversando."
+P12,2026-10-28,G3,audio,S01.wav,aac_48k,75,,Com um pouco de eco.,"Usei um headphone Soundcore com noise cancelation ligado, suas ""almofadas"" auriculares estão bem desgastadas. Estava em uma sala de biblioteca com 3 pessoas conversando."
+P12,2026-10-28,G3,audio,S02.wav,REF_OCULTA,90,,"Achei até melhor que o original, porém difere um pouco.","Usei um headphone Soundcore com noise cancelation ligado, suas ""almofadas"" auriculares estão bem desgastadas. Estava em uma sala de biblioteca com 3 pessoas conversando."
+P13,2026-10-28,G3,audio,S01.wav,aac_48k,90,,voz menos nítida,Foi usado um Headset Logitech G Pro X Wireless em um ambiente silencioso de um quarto e sem nenhuma dificuldade aparente
+P13,2026-10-28,G3,audio,S05.wav,mp3_48k,60,,chiado,Foi usado um Headset Logitech G Pro X Wireless em um ambiente silencioso de um quarto e sem nenhuma dificuldade aparente
+P13,2026-10-28,G3,audio,S02.wav,REF_OCULTA,100,,nenhuma diferença,Foi usado um Headset Logitech G Pro X Wireless em um ambiente silencioso de um quarto e sem nenhuma dificuldade aparente
+P13,2026-10-28,G3,audio,S03.wav,vorbis_128k,100,,nenhuma diferença,Foi usado um Headset Logitech G Pro X Wireless em um ambiente silencioso de um quarto e sem nenhuma dificuldade aparente
+P13,2026-10-28,G3,audio,S04.wav,mp3_128k,100,,nenhuma diferença,Foi usado um Headset Logitech G Pro X Wireless em um ambiente silencioso de um quarto e sem nenhuma dificuldade aparente
+P13,2026-10-28,G3,audio,S06.wav,ANCORA,65,,abafamento,Foi usado um Headset Logitech G Pro X Wireless em um ambiente silencioso de um quarto e sem nenhuma dificuldade aparente
+P14,2026-10-28,G3,audio,S03.wav,vorbis_128k,100,,nenhuma diferença,Foi usado um Headset Logitech G Pro X Wireless em um ambiente silencioso de um quarto e sem dificuldades aparentes.
+P14,2026-10-28,G3,audio,S06.wav,ANCORA,100,,nenhuma diferença,Foi usado um Headset Logitech G Pro X Wireless em um ambiente silencioso de um quarto e sem dificuldades aparentes.
+P14,2026-10-28,G3,audio,S01.wav,aac_48k,100,,nenhuma diferença,Foi usado um Headset Logitech G Pro X Wireless em um ambiente silencioso de um quarto e sem dificuldades aparentes.
+P14,2026-10-28,G3,audio,S02.wav,REF_OCULTA,100,,nenhuma diferença,Foi usado um Headset Logitech G Pro X Wireless em um ambiente silencioso de um quarto e sem dificuldades aparentes.
+P14,2026-10-28,G3,audio,S05.wav,mp3_48k,22,,chiado,Foi usado um Headset Logitech G Pro X Wireless em um ambiente silencioso de um quarto e sem dificuldades aparentes.
+P14,2026-10-28,G3,audio,S04.wav,mp3_128k,100,,nenhuma diferença,Foi usado um Headset Logitech G Pro X Wireless em um ambiente silencioso de um quarto e sem dificuldades aparentes.
+P15,2026-10-29,G4,audio,S03.wav,vorbis_128k,30,,Voz baixa e com barulho leve,"Fone JBL, ambiente silencioso"
+P15,2026-10-29,G4,audio,S02.wav,mp3_128k,50,,Parece gravado de longe,"Fone JBL, ambiente silencioso"
+P15,2026-10-29,G4,audio,S01.wav,aac_48k,5,,Não entendi o áudio,"Fone JBL, ambiente silencioso"
+P15,2026-10-29,G4,audio,S06.wav,REF_OCULTA,60,,Foi o melhor a fala estava mais clara,"Fone JBL, ambiente silencioso"
+P15,2026-10-29,G4,audio,S04.wav,mp3_48k,20,,Som estourado mais abafado,"Fone JBL, ambiente silencioso"
+P15,2026-10-29,G4,audio,S05.wav,ANCORA,10,,Parecia que o microfone estava coberto,"Fone JBL, ambiente silencioso"
+P16,2026-10-29,G4,audio,S05.wav,ANCORA,18,,Um pouco de chiado e ruído,"Fone JBL bluetooth, lugar silencioso"
+P16,2026-10-29,G4,audio,S03.wav,vorbis_128k,30,,Abafado e distante,"Fone JBL bluetooth, lugar silencioso"
+P16,2026-10-29,G4,audio,S06.wav,REF_OCULTA,15,,Achei cortado,"Fone JBL bluetooth, lugar silencioso"
+P16,2026-10-29,G4,audio,S02.wav,mp3_128k,50,,Razoável,"Fone JBL bluetooth, lugar silencioso"
+P16,2026-10-29,G4,audio,S04.wav,mp3_48k,35,,Voz robotizada,"Fone JBL bluetooth, lugar silencioso"
+P16,2026-10-29,G4,audio,S01.wav,aac_48k,3,,Nem diferente,"Fone JBL bluetooth, lugar silencioso"
+P17,2026-10-29,G4,audio,S05.wav,ANCORA,15,,Está com ruído,"Fone JBL bluetooth, lugar silencioso"
+P17,2026-10-29,G4,audio,S04.wav,mp3_48k,40,,Está abafado,"Fone JBL bluetooth, lugar silencioso"
+P17,2026-10-29,G4,audio,S02.wav,mp3_128k,10,,Está estranho o som,"Fone JBL bluetooth, lugar silencioso"
+P17,2026-10-29,G4,audio,S03.wav,vorbis_128k,60,,Está bom,"Fone JBL bluetooth, lugar silencioso"
+P17,2026-10-29,G4,audio,S06.wav,REF_OCULTA,25,,A voz está mecanizada,"Fone JBL bluetooth, lugar silencioso"
+P17,2026-10-29,G4,audio,S01.wav,aac_48k,5,,Achei o pior,"Fone JBL bluetooth, lugar silencioso"
+P18,2026-10-29,G4,audio,S05.wav,ANCORA,18,,Chiado no fundo,"Fone JBL bluetooth, ambiente silencioso"
+P18,2026-10-29,G4,audio,S02.wav,mp3_128k,32,,Voz mais contida e abafada,"Fone JBL bluetooth, ambiente silencioso"
+P18,2026-10-29,G4,audio,S03.wav,vorbis_128k,14,,Está com falhas,"Fone JBL bluetooth, ambiente silencioso"
+P18,2026-10-29,G4,audio,S06.wav,REF_OCULTA,62,,Está mais compreensível,"Fone JBL bluetooth, ambiente silencioso"
+P18,2026-10-29,G4,audio,S04.wav,mp3_48k,27,,A entonação está metalizada,"Fone JBL bluetooth, ambiente silencioso"
+P18,2026-10-29,G4,audio,S01.wav,aac_48k,,,É o mais prejudicado,"Fone JBL bluetooth, ambiente silencioso"
+P01,2026-10-28,G1,imagem,Par 1,q=20,,1,,Headset sem fio Logitech Zone Vibe 100
+P01,2026-10-28,G1,imagem,Par 2,q=2,,1,,Headset sem fio Logitech Zone Vibe 100
+P01,2026-10-28,G1,imagem,Par 3,q=31,,3,,Headset sem fio Logitech Zone Vibe 100
+P02,2026-10-28,G1,imagem,Par 1,q=20,,0,não viu diferença alguma,Headset sem fio Logitech Zone Vibe 100
+P02,2026-10-28,G1,imagem,Par 2,q=31,,1,imagem pouco mais desfocada,Headset sem fio Logitech Zone Vibe 100
+P02,2026-10-28,G1,imagem,Par 3,q=2,,1,mais desfocada e mais exposição,Headset sem fio Logitech Zone Vibe 100
+P03,2026-10-28,G1,imagem,Par 1,q=20,,1,Opacidade diferente.,Headset sem fio Logitech Zone Vibe 100
+P03,2026-10-28,G1,imagem,Par 2,q=2,,0,Sem diferenças evidentes,Headset sem fio Logitech Zone Vibe 100
+P03,2026-10-28,G1,imagem,Par 3,q=31,,1,"Menos nitidez, diferença discreta.",Headset sem fio Logitech Zone Vibe 100
+P04,2026-10-28,G1,imagem,Par 1,q=2,,0,Não aponta diferença com segurança.,Headset sem fio Logitech Zone Vibe 100
+P04,2026-10-28,G1,imagem,Par 2,q=20,,1,Perda discreta de detalhes no cabelo e na pelúcia.,Headset sem fio Logitech Zone Vibe 100
+P04,2026-10-28,G1,imagem,Par 3,q=31,,2,Manchas no rosto e blocos visíveis na parede.,Headset sem fio Logitech Zone Vibe 100
+P05,2026-10-28,G1,imagem,Par 1,q=20,,1,Pequena perda de detalhes no cabelo e na pelúcia.,Headset sem fio Logitech Zone Vibe 100
+P05,2026-10-28,G1,imagem,Par 2,q=31,,2,Marcas quadradas na parede e irregularidade aparente na pele.,Headset sem fio Logitech Zone Vibe 100
+P05,2026-10-28,G1,imagem,Par 3,q=2,,0,Não identifica diferença com segurança.,Headset sem fio Logitech Zone Vibe 100
+P06,2026-10-28,G2,imagem,Par 1,q=31,,2,Regiões quadriculadas,Utilizando fones de ouvido Platonics Blackwire 3220
+P06,2026-10-28,G2,imagem,Par 2,q=2,,1,"Está próximo a imagem original, mas as cores parecem diferentes.",Utilizando fones de ouvido Platonics Blackwire 3220
+P06,2026-10-28,G2,imagem,Par 3,q=20,,2,Também existem regiões quadriculadas bem evidentes.,Utilizando fones de ouvido Platonics Blackwire 3220
+P07,2026-10-28,G2,imagem,Par 1,q=31,,2,Por toda a imagem,Sala fechada utilizando fones Platonics Blackwire 3220
+P07,2026-10-28,G2,imagem,Par 2,q=20,,2,"A imagem por completo, assim como a anterior.",Sala fechada utilizando fones Platonics Blackwire 3220
+P07,2026-10-28,G2,imagem,Par 3,q=2,,0,Não percebi diferença,Sala fechada utilizando fones Platonics Blackwire 3220
+P08,2026-10-28,G2,imagem,Par 1,q=2,,1,O brilho parece melhor no centro da imagem.,Sala fechada utilizando fones Platonics Blackwire 3220
+P08,2026-10-28,G2,imagem,Par 2,q=31,,3,Muito pixelada.,Sala fechada utilizando fones Platonics Blackwire 3220
+P08,2026-10-28,G2,imagem,Par 3,q=20,,2,"Também pixelada, mas melhor que a anterior.",Sala fechada utilizando fones Platonics Blackwire 3220
+P09,2026-10-28,G2,imagem,Par 1,q=2,,0,Não percebi diferença,Sala fechada utilizando fones Platonics Blackwire 3220
+P09,2026-10-28,G2,imagem,Par 2,q=31,,3,Imagem muito pixelada por completo.,Sala fechada utilizando fones Platonics Blackwire 3220
+P09,2026-10-28,G2,imagem,Par 3,q=20,,2,"Modificação discreta, perceptível em algumas regiões.",Sala fechada utilizando fones Platonics Blackwire 3220
+P10,2026-10-28,G2,imagem,Par 1,q=20,,2,Nitidez menor na imagem A.,Sala fechada utilizando fones Platonics Blackwire 3220.
+P10,2026-10-28,G2,imagem,Par 2,q=2,,0,Não há diferença,Sala fechada utilizando fones Platonics Blackwire 3220.
+P10,2026-10-28,G2,imagem,Par 3,q=31,,3,"Menos definição, mais evidente a diferença.",Sala fechada utilizando fones Platonics Blackwire 3220.
+P11,2026-10-28,G3,imagem,Par 1,q=31,,0,Nenhuma diferença,Fone: TWS350 Ambiente: quarto silencioso
+P11,2026-10-28,G3,imagem,Par 2,q=20,,0,Nenhuma diferença,Fone: TWS350 Ambiente: quarto silencioso
+P11,2026-10-28,G3,imagem,Par 3,q=2,,0,Nenhuma diferença,Fone: TWS350 Ambiente: quarto silencioso
+P12,2026-10-28,G3,imagem,Par 1,q=2,,0,"Não percebi uma clara diferença, talvez a imagem B esteja um pouco mais escura e esverdeada, porém não tenho certeza dessa afirmação.","Usei um headphone Soundcore com noise cancelation ligado, suas ""almofadas"" auriculares estão bem desgastadas. Estava em uma sala de biblioteca com 3 pessoas conversando."
+P12,2026-10-28,G3,imagem,Par 2,q=31,,2,"Imagem B parece ter uma qualidade menor em relação a A, deixando a imagem com contornos mais ""tremidos""","Usei um headphone Soundcore com noise cancelation ligado, suas ""almofadas"" auriculares estão bem desgastadas. Estava em uma sala de biblioteca com 3 pessoas conversando."
+P12,2026-10-28,G3,imagem,Par 3,q=20,,1,"Qualidade da resolução da imagem B parece um pouco inferior em relação a A, entretando essa diferença é discreta.","Usei um headphone Soundcore com noise cancelation ligado, suas ""almofadas"" auriculares estão bem desgastadas. Estava em uma sala de biblioteca com 3 pessoas conversando."
+P13,2026-10-28,G3,imagem,Par 1,q=20,,2,Rostos humanos desfocados,Foi usado um Headset Logitech G Pro X Wireless em um ambiente silencioso de um quarto e sem nenhuma dificuldade aparente
+P13,2026-10-28,G3,imagem,Par 2,q=31,,3,"Rostos humanos muito desfocados, além dos personagens",Foi usado um Headset Logitech G Pro X Wireless em um ambiente silencioso de um quarto e sem nenhuma dificuldade aparente
+P13,2026-10-28,G3,imagem,Par 3,q=2,,0,Não percebi nenhuma diferença em ambas imagens,Foi usado um Headset Logitech G Pro X Wireless em um ambiente silencioso de um quarto e sem nenhuma dificuldade aparente
+P14,2026-10-28,G3,imagem,Par 1,q=2,,2,"rosto, cor da imagem, nitidez.",Foi usado um Headset Logitech G Pro X Wireless em um ambiente silencioso de um quarto e sem dificuldades aparentes.
+P14,2026-10-28,G3,imagem,Par 2,q=20,,3,"resolução da imagem B, fundo com benday, cores diferentes.",Foi usado um Headset Logitech G Pro X Wireless em um ambiente silencioso de um quarto e sem dificuldades aparentes.
+P14,2026-10-28,G3,imagem,Par 3,q=31,,3,"a imagem A em péssima qualidade/resolução, cores diferentes.",Foi usado um Headset Logitech G Pro X Wireless em um ambiente silencioso de um quarto e sem dificuldades aparentes.
+P15,2026-10-29,G4,imagem,Par 1,q=20,,1,O fundo perdeu detalhes,"Fone JBL, ambiente silencioso"
+P15,2026-10-29,G4,imagem,Par 2,q=2,,2,Perdeu contraste,"Fone JBL, ambiente silencioso"
+P15,2026-10-29,G4,imagem,Par 3,q=31,,2,Um pouco borrada,"Fone JBL, ambiente silencioso"
+P16,2026-10-29,G4,imagem,Par 1,q=31,,2,O rosto um pouco embaçado,"Fone JBL bluetooth, lugar silencioso"
+P16,2026-10-29,G4,imagem,Par 2,q=2,,1,Não achei muito diferente,"Fone JBL bluetooth, lugar silencioso"
+P16,2026-10-29,G4,imagem,Par 3,q=20,,3,Os detalhes pioraram,"Fone JBL bluetooth, lugar silencioso"
+P17,2026-10-29,G4,imagem,Par 1,q=31,,2,Os detalhes do rosto e roupa pioraram,"Fone JBL bluetooth, lugar silencioso"
+P17,2026-10-29,G4,imagem,Par 2,q=20,,2,Meio embaçado,"Fone JBL bluetooth, lugar silencioso"
+P17,2026-10-29,G4,imagem,Par 3,q=2,,2,As cores estão um pouco diferente,"Fone JBL bluetooth, lugar silencioso"
+P18,2026-10-29,G4,imagem,Par 1,q=31,,1,Está um pouco opaco,"Fone JBL bluetooth, ambiente silencioso"
+P18,2026-10-29,G4,imagem,Par 2,q=2,,0,Está bem parecido com a original,"Fone JBL bluetooth, ambiente silencioso"
+P18,2026-10-29,G4,imagem,Par 3,q=20,,2,Perdeu nitidez ficou esfumado,"Fone JBL bluetooth, ambiente silencioso"

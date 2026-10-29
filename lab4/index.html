@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 4 CSM: Codificação com Perdas de Áudio e Imagem (Grupo 3)</title>
+<meta name="description" content="Relatório do Lab 4 de ESFI001 (CSM, UFABC): codificação de áudio em MP3, AAC e Vorbis, compressão JPEG, avaliação MUSHRA-like e comparação de imagens por pares. Grupo 3.">
+<link rel="stylesheet" href="css/style.css">
+<script>
+  try { var t = localStorage.getItem("tema-csm"); if (t) document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+</script>
+</head>
+<body>
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+<header class="topo">
+  <div class="largura">
+    <nav class="outros-labs" aria-label="Relatórios do Grupo 3">
+      <ul>
+        <li><a href="../">Portal do Grupo 3</a></li>
+        <li><a href="https://lab3-csm-3q2026.netlify.app/lab1/">Lab 1</a></li>
+        <li><a href="https://lab3-csm-3q2026.netlify.app/lab2/">Lab 2</a></li>
+        <li><a href="https://lab3-csm-3q2026.netlify.app/lab3/">Lab 3</a></li>
+        <li><a href="./" aria-current="page">Lab 4</a></li>
+      </ul>
+    </nav>
+    <div class="linha-topo">
+      <p class="disciplina">ESFI001 Comunicações e Sistemas Multimídia (CSM), UFABC. Coordenação: Prof. Celso Kurashima e Prof. Minami</p>
+      <button type="button" class="tema" id="bt-tema" aria-pressed="false">Tema escuro</button>
+    </div>
+    <h1>Lab 4: Codificação com perdas de áudio e imagem (Grupo 3)</h1>
+    <dl class="autoria">
+      <div><dt>Autores:</dt><dd>Fernando Hsiao, Isabella Pierina, Pedro Ricardo Cantu Benedetti e Yasmin Ribeiro Santos</dd></div>
+      <div><dt>Captação das imagens:</dt><dd><time datetime="2026-10-15">15/10/2026</time></dd></div>
+      <div><dt>Avaliação externa:</dt><dd><time datetime="2026-10-28">28</time> e <time datetime="2026-10-29">29/10/2026</time></dd></div>
+      <div><dt>Publicação do relatório:</dt><dd><time datetime="2026-10-29">29/10/2026</time></dd></div>
+    </dl>
+    <nav class="menu" aria-label="Seções do relatório">
+      <ul>
+        <li><a href="#objetivos">Objetivos</a></li>
+        <li><a href="#integrantes">Integrantes</a></li>
+        <li><a href="#procedimento">Procedimento</a></li>
+        <li><a href="#extensao">Avaliação externa</a></li>
+        <li><a href="#audio">Parte A: áudio</a></li>
+        <li><a href="#imagem">Parte B: imagem</a></li>
+        <li><a href="#teste-cego">Teste cego no navegador</a></li>
+        <li><a href="#comparador">Comparador de imagem</a></li>
+        <li><a href="#quadro">Quadro comparativo</a></li>
+        <li><a href="#questoes">Questões do roteiro</a></li>
+        <li><a href="#conclusoes">Conclusões</a></li>
+        <li><a href="#referencias">Referências</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="conteudo" class="largura" tabindex="-1">
+
+<!-- ============================================================ OBJETIVOS -->
+<section id="objetivos" aria-labelledby="t-objetivos">
+  <h2 id="t-objetivos">Objetivo da atividade</h2>
+  <p>O Lab 4 liga a captação feita no Lab 3 à codificação com perdas. Usamos as gravações WAV do Lab 3 para gerar versões em MP3, AAC e Ogg Vorbis, fotografamos o grupo com a webcam para gerar versões JPEG e comparamos as medidas objetivas (tamanho, taxa, banda, PSNR) com avaliações subjetivas feitas às cegas. A pergunta central do roteiro é até que ponto dá para reduzir a quantidade de dados mantendo uma qualidade percebida adequada à aplicação.</p>
+  <h3>Objetivos específicos do roteiro</h3>
+  <ol type="a">
+    <li>Recuperar gravações WAV do Lab 3 e captar fotografias com webcam ou smartphone, documentando suas características.</li>
+    <li>Codificar áudio em MP3, AAC e Ogg Vorbis nas taxas nominais de 48 e 128 kbit/s e imagens em JPEG com o parâmetro <code>-q:v</code> do FFmpeg em 2, 20 e 31.</li>
+    <li>Registrar tamanho, taxa efetiva (áudio) e redução percentual de dados, e relacionar as medidas com os artefatos percebidos.</li>
+    <li>Preparar pacotes de estímulos anônimos e guardar os gabaritos separados das avaliações.</li>
+    <li>Fazer a avaliação MUSHRA-like de áudio (0 a 100) e a comparação de imagens por pares (0 a 3) com o material de outro grupo.</li>
+    <li>Exportar as respostas em CSV e sintetizar resultados e limitações.</li>
+  </ol>
+  <h3>Conceitos usados no relatório</h3>
+  <dl class="ficha">
+    <dt>Codificação perceptual de áudio</dt>
+    <dd>MP3, AAC e Vorbis dividem o sinal em bandas de frequência e quantizam cada banda com o número de bits que o modelo psicoacústico considera suficiente para que o ruído de quantização fique abaixo do limiar de mascaramento. O erro não é pequeno em amplitude: ele é colocado onde o ouvido percebe menos. Por isso a relação sinal/erro (SNR) de um arquivo codificado é baixa e mesmo assim o som pode parecer igual ao original.</dd>
+    <dt>Taxa nominal e taxa efetiva</dt>
+    <dd>A taxa nominal é o valor pedido ao codificador (<code>-b:a 48k</code>). A taxa efetiva é o tamanho do arquivo dividido pela duração. A diferença vem do modo de controle de taxa (constante no MP3, média no AAC e no Vorbis) e dos cabeçalhos do contêiner.</dd>
+    <dt>MUSHRA-like</dt>
+    <dd>Teste inspirado na ITU-R BS.1534: o avaliador ouve uma referência identificada e dá nota de 0 a 100 a estímulos anônimos, entre eles a própria referência escondida (referência oculta) e uma âncora de baixa qualidade. A referência oculta deve receber nota perto de 100 e serve para checar o avaliador.</dd>
+    <dt>JPEG e o parâmetro -q:v</dt>
+    <dd>O JPEG divide a imagem em blocos de 8 por 8 pixels, aplica a DCT e quantiza os coeficientes. No FFmpeg, <code>-q:v</code> escala as tabelas de quantização: valores menores dão melhor qualidade (2 é quase sem perdas visíveis e 31 é o pior caso).</dd>
+    <dt>PSNR e SSIM</dt>
+    <dd>Medidas objetivas de fidelidade da imagem. A PSNR compara o erro médio quadrático com o valor máximo do pixel (255). A SSIM compara média, contraste e estrutura em janelas locais e vai até 1. Nenhuma das duas substitui a avaliação subjetiva, como lembra o roteiro.</dd>
+  </dl>
+</section>
+
+<!-- ============================================================ INTEGRANTES -->
+<section id="integrantes" aria-labelledby="t-integrantes">
+  <h2 id="t-integrantes">Integrantes do grupo</h2>
+  <div class="rolagem">
+    <table>
+      <caption>Integrantes do grupo 3</caption>
+      <thead><tr><th scope="col">Nome</th><th scope="col">RA</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Fernando Hsiao</th><td class="nowrap">11202231201</td></tr>
+        <tr><th scope="row">Isabella Pierina</th><td class="nowrap">11202230474</td></tr>
+        <tr><th scope="row">Pedro Ricardo Cantu Benedetti</th><td class="nowrap">11202230298</td></tr>
+        <tr><th scope="row">Yasmin Ribeiro Santos</th><td class="nowrap">11202321255</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Os notebooks do Lab 4 organizam o material em pastas G1 a G6 dentro de <code>MyDrive/Lab4_CSM</code>, com trocas G1 com G2 e G3 com G4. As quatro pastas G1 a G4 que recebemos trazem gravações do nosso próprio Lab 3: conferimos a duração e o número de amostras de cada WAV original com os valores do relatório do Lab 3. Por isso tratamos G1 a G4 como quatro rodadas de produção do grupo, cada uma com uma gravação diferente.</p>
+</section>
+
+<!-- ============================================================ PROCEDIMENTO -->
+<section id="procedimento" aria-labelledby="t-procedimento">
+  <h2 id="t-procedimento">Montagem e procedimento</h2>
+  <p>O laboratório usou cinco notebooks no Google Colab, todos chamando o FFmpeg, com fones de ouvido para a escuta e a webcam do computador para as fotos. A lista abaixo resume o que cada notebook faz e o que encontramos na pasta do grupo.</p>
+  <ol class="fluxo">
+    <li><strong>Codificação de áudio.</strong> Corta os primeiros 12 s do WAV, converte para PCM 16 bits, 44,1 kHz, estéreo (a referência) e gera seis versões: MP3, AAC e Vorbis a 48 e 128 kbit/s. <span class="estado ok">Feito nas quatro pastas.</span></li>
+    <li><strong>Captação de imagens.</strong> Foto pela webcam no navegador, salva em PNG. <span class="estado ok">Cinco fotos de 640 por 480 pixels, todas na pasta G2.</span></li>
+    <li><strong>Compressão JPEG.</strong> Três versões por imagem com <code>-q:v</code> 2, 20 e 31 e o arquivo <code>medidas_imagem.csv</code>. <span class="estado ok">Geradas pelo script com o mesmo comando do notebook.</span></li>
+    <li><strong>Avaliação de áudio.</strong> Pacote anônimo com seis estímulos e gabarito privado, escuta e notas de 0 a 100. <span class="estado ok">Quatro pacotes, avaliados por <span data-k="n_part" data-d="0">18</span> participantes externos.</span></li>
+    <li><strong>Avaliação de imagem.</strong> Três pares original e JPEG da composição coletiva, notas de 0 a 3. <span class="estado ok">Avaliados pelos mesmos <span data-k="n_part" data-d="0">18</span> participantes.</span></li>
+  </ol>
+  <p>Todas as medidas, gráficos e arquivos de áudio deste relatório saem do script <a href="codigo/analise_lab4.py">analise_lab4.py</a>, que lê as pastas G1 a G4 como estão no Drive. As planilhas da avaliação externa ficam em <code>Lab4_CSM/avaliacoes_externas/</code>; o script as lê, liga cada estímulo ao gabarito do pacote e monta as tabelas e os gráficos de notas.</p>
+  <h3>Observações sobre os notebooks</h3>
+  <ul>
+    <li><strong>Âncora com corte gradual.</strong> O Lab4.4 cria a âncora com <code>lowpass=f=3500</code>. No FFmpeg esse filtro tem 2 polos por padrão (Butterworth de 2ª ordem, queda de 12 dB por oitava), e não o corte abrupto em 3,5 kHz da âncora da BS.1534. Medimos a atenuação nos nossos arquivos: <span data-k="rodadas.G1.ancora.a7k" data-u=" dB">-13,4 dB</span> em 7 kHz e <span data-k="rodadas.G1.ancora.a10k" data-u=" dB">-21,1 dB</span> em 10 kHz. Os agudos continuam audíveis, então a âncora fica mais perto dos estímulos codificados do que a da norma. Aplicar o filtro várias vezes em sequência deixaria o corte mais abrupto.</li>
+    <li><strong>Cuidado ao reexecutar a célula do produtor.</strong> A célula do produtor termina chamando <code>preparar_audio()</code>. Rodar a célula de novo sorteia outra ordem e sobrescreve o gabarito. Se alguém avaliar e depois o produtor rodar a célula outra vez, as notas deixam de corresponder ao gabarito. Conferimos os quatro pacotes atuais contra os gabaritos (seção <a href="#pacote">Pacote anônimo</a>) e eles batem.</li>
+    <li><strong>Avaliação externa.</strong> O teste interno entre grupos parceiros rendeu uma única planilha (pacote G2, um avaliador). Para cobrir os quatro pacotes com vários avaliadores, as notas deste relatório vêm da avaliação externa descrita na próxima seção.</li>
+    <li><strong>Combinação de codecs e taxas.</strong> O pacote usa MP3 a 48 e 128 kbit/s, AAC só a 48 kbit/s e Vorbis só a 128 kbit/s. Como AAC e Vorbis aparecem em taxas diferentes, a comparação entre os dois mistura o efeito do codec com o da taxa. Incluir os três codecs nas duas taxas resolveria isso, com um pacote um pouco maior.</li>
+    <li><strong>Taxa efetiva com cabeçalho.</strong> O valor <code>kbps_efetivo</code> do Lab4.1 vem do <code>bit_rate</code> do contêiner, que inclui os cabeçalhos. Em trechos curtos isso pesa: ver a seção <a href="#codificacao">Codificação</a>.</li>
+  </ul>
+</section>
+
+<!-- ============================================================ AVALIAÇÃO EXTERNA -->
+<section id="extensao" aria-labelledby="t-extensao">
+  <h2 id="t-extensao">Avaliação externa (ação extensionista)</h2>
+  <p>As avaliações deste relatório foram feitas por participantes de fora da turma, como ação extensionista do grupo. Entre 28 e 29/10/2026, <span data-k="n_part" data-d="0">18</span> participantes responderam a um formulário com as duas partes do lab: o teste MUSHRA-like de um dos quatro pacotes de áudio (notas de 0 a 100) e os três pares da composição coletiva (diferença de 0 a 3). As planilhas trazem só um código por participante, sem nome ou contato.</p>
+  <p><a class="botao-link" href="https://drive.google.com/drive/folders/1Uq_4UB5OdG4508TN57uqHbkFDcuyTru-?usp=drive_link">Pasta de ações extensionistas no Google Drive</a> <a class="botao-link" href="dados/avaliacoes_externas.csv" download>Baixar todas as respostas (CSV)</a></p>
+  <div class="rolagem">
+    <table class="larga" id="tab-participantes"><caption>Participantes da avaliação externa</caption></table>
+  </div>
+  <h3>Como as respostas foram tratadas</h3>
+  <ul>
+    <li><strong>Ligação com o gabarito.</strong> Cada resposta de áudio indica o arquivo do pacote (<code>S01.wav</code> a <code>S06.wav</code>), e o script liga esse código à condição pelo gabarito privado do pacote. As respostas de imagem já trazem o <code>-q:v</code> de cada par.</li>
+    <li><strong>Médias.</strong> As médias usam as notas preenchidas. Três estímulos ficaram sem nota (<span id="lista-sem-nota">P06 no AAC a 48 kbit/s, P10 no Vorbis a 128 kbit/s e P18 no AAC a 48 kbit/s</span>); os comentários deles aparecem nas tabelas.</li>
+    <li><strong>Consolidação.</strong> As respostas dos 18 participantes estão reunidas num único CSV, disponível no botão acima.</li>
+  </ul>
+</section>
+
+<!-- ============================================================ PARTE A -->
+<section id="audio" aria-labelledby="t-audio">
+  <h2 id="t-audio">Parte A: codificação e avaliação de áudio</h2>
+
+  <div class="parte">
+  <h3 id="gravacoes">Gravações usadas</h3>
+  <p>O roteiro pede trechos de 10 a 15 s, sem saturação, de preferência um de fala e outro de canto. Cada pasta processou uma gravação do Lab 3:</p>
+  <div class="rolagem">
+    <table class="larga" id="tab-gravacoes"><caption>Gravações do Lab 3 usadas como referência em cada pasta</caption></table>
+  </div>
+  <p>Três pontos dessa tabela afetam a leitura dos resultados:</p>
+  <ul>
+    <li><strong>G2 e G3 ficaram curtas.</strong> O notebook corta em 12 s, mas os originais têm <span data-k="rodadas.G2.duracao_original" data-d="2" data-u=" s">7,29 s</span> e <span data-k="rodadas.G3.duracao_original" data-d="2" data-u=" s">4,37 s</span>, abaixo dos 10 s pedidos.</li>
+    <li><strong>A referência G4 tem saturação.</strong> São <span data-k="rodadas.G4.amostras_fundo_escala" data-d="0">9.284</span> amostras em fundo de escala, <span data-k="rodadas.G4.pct_fundo_escala" data-d="2" data-u=" %">1,75 %</span> dos instantes. Já tínhamos visto esse corte na E2 do Lab 3. Como o roteiro pede trechos sem saturação, numa próxima rodada vale escolher outro trecho dessa estação.</li>
+    <li><strong>As referências G1 e G2 já tinham passado por MP3.</strong> No Lab 3 esses dois arquivos foram entregues em MP3 e convertidos para WAV depois. O espectro confirma: há uma queda brusca de <span data-k="rodadas.G1.degrau_hf.0" data-u=" dB">23,0 dB</span> em <span data-k="rodadas.G1.degrau_hf.1" data-d="0" data-u=" Hz">18.500 Hz</span> na G1 e de <span data-k="rodadas.G2.degrau_hf.0" data-u=" dB">17,7 dB</span> em <span data-k="rodadas.G2.degrau_hf.1" data-d="0" data-u=" Hz">16.000 Hz</span> na G2, seguida de um piso plano. É o passa-baixas do primeiro codificador MP3. Nas gravações G3 e G4, que eram PCM, a maior queda nessa faixa é de 2 dB. Nas pastas G1 e G2 o teste compara, portanto, uma segunda codificação com uma referência que já tinha perdas.</li>
+  </ul>
+  </div>
+
+  <div class="parte">
+  <h3 id="codificacao">Codificação: tamanho, taxa e redução de dados</h3>
+  <div class="controles">
+    <label>Pasta (rodada)
+      <select id="sel-rodada" aria-controls="tab-codif svg-espectro tab-corte lista-versoes tab-pacote">
+        <option value="G1">G1: canto (E5)</option>
+        <option value="G2">G2: fala a 15 cm (E1)</option>
+        <option value="G3">G3: fala a 180 graus (E3)</option>
+        <option value="G4">G4: fala com ruído (E2)</option>
+      </select>
+    </label>
+  </div>
+  <p class="sr" aria-live="polite" id="aviso-rodada"></p>
+  <div class="rolagem">
+    <table class="larga" id="tab-codif"><caption>Versões codificadas</caption></table>
+  </div>
+  <figure>
+    <img class="grafico" src="img/graficos/audio_taxas.png" width="1117" height="468" id="img-taxas" alt="Gráfico de barras da taxa efetiva das seis versões em cada pasta.">
+    <figcaption>Taxa efetiva (tamanho do arquivo dividido pela duração) das seis versões nas quatro pastas. As linhas tracejadas marcam 48 e 128 kbit/s.</figcaption>
+  </figure>
+  <p>O MP3 trabalha com taxa constante: a 48 kbit/s os arquivos de G1 e G4, ambos com 12 s, têm exatamente o mesmo tamanho (<span data-k="rodadas.G1.versoes.mp3_48k.bytes" data-d="0">72.507</span> bytes), embora o conteúdo seja outro. AAC e Vorbis usam taxa média e variam com o sinal. O caso mais claro é o Vorbis a 128 kbit/s na G2 (fala próxima, poucos agudos), que ficou em <span data-k="rodadas.G2.versoes.vorbis_128k.kbps_arquivo" data-u=" kbit/s">115,7 kbit/s</span>, enquanto no canto da G1 passou do nominal, com <span data-k="rodadas.G1.versoes.vorbis_128k.kbps_arquivo" data-u=" kbit/s">133,9 kbit/s</span>.</p>
+  <p>A coluna "taxa só do áudio" soma apenas os pacotes de áudio, sem o contêiner. A diferença para a taxa do arquivo é a sobrecarga de cabeçalhos: no Ogg Vorbis ela fica entre 4 e 6 kB por arquivo (o cabeçalho de configuração traz os livros de código do codificador). Na G3, com só <span data-k="rodadas.G3.duracao" data-d="2" data-u=" s">4,37 s</span>, o Vorbis a 48 kbit/s mostra <span data-k="rodadas.G3.versoes.vorbis_48k.kbps_arquivo" data-u=" kbit/s">53,3 kbit/s</span> no arquivo, mas o áudio em si ocupa <span data-k="rodadas.G3.versoes.vorbis_48k.kbps_audio" data-u=" kbit/s">45,6 kbit/s</span>. O valor do <code>medidas_audio.csv</code> é o do arquivo.</p>
+  <p>Em relação ao WAV de referência (1.411,2 kbit/s), as versões a 48 kbit/s reduzem cerca de 96,5 % dos dados (razão perto de 29 para 1) e as de 128 kbit/s cerca de 91 % (razão perto de 11 para 1).</p>
+  </div>
+
+  <div class="parte">
+  <h3 id="banda">O que os codificadores cortam: espectro médio</h3>
+  <p>O gráfico mostra, banda por banda (1/6 de oitava), o nível de cada versão menos o nível da referência. Zero quer dizer que a banda foi preservada. Marque as curvas que quer comparar.</p>
+  <fieldset class="controles" id="ctl-curvas">
+    <legend>Curvas</legend>
+  </fieldset>
+  <svg id="svg-espectro" class="grafico" viewBox="0 0 720 340" role="img" aria-labelledby="svg-espectro-tit svg-espectro-desc">
+    <title id="svg-espectro-tit">Espectro relativo das versões codificadas</title>
+    <desc id="svg-espectro-desc"></desc>
+  </svg>
+  <p class="sr" aria-live="polite" id="aviso-curvas"></p>
+  <div class="rolagem">
+    <table id="tab-corte"><caption>Frequência em que a versão fica 10 dB abaixo da referência</caption></table>
+  </div>
+  <p>As versões a 48 kbit/s de MP3 e AAC cortam a partir de 7,0 a 7,6 kHz: o codificador aplica um passa-baixas antes de codificar para gastar os poucos bits disponíveis nas bandas mais importantes. O Vorbis a 48 kbit/s mantém a banda até cerca de 14 kHz, com menos bits por banda. A 128 kbit/s o MP3 corta entre 15,8 e 16,6 kHz (G1 e G3) e o AAC em 17,3 kHz (G1). Nas outras pastas a referência tem pouco conteúdo acima de 15 kHz e não há corte mensurável. O corte em 7 kHz deve ser o artefato mais fácil de ouvir a 48 kbit/s: o som fica abafado e as consoantes perdem o brilho.</p>
+  <figure>
+    <img class="grafico" id="img-espectro" src="img/graficos/audio_espectro_G1.png" width="1248" height="468" alt="Espectro relativo das versões codificadas da pasta escolhida.">
+    <figcaption id="cap-espectro">Mesmo gráfico gerado pelo script, para a pasta escolhida.</figcaption>
+  </figure>
+  <p>A tabela de codificação traz também a SNR depois de alinhar cada versão à referência. Ela fica entre 8 e 26 dB, valores que num sistema comum indicariam um sinal muito ruidoso. Isso mostra o que a codificação perceptual faz: o erro é grande, mas fica escondido sob o mascaramento. O AAC a 48 kbit/s tem a menor SNR em todas as pastas, de 2 a 7 dB abaixo do MP3 na mesma taxa, embora os dois cortem a banda no mesmo ponto. A SNR mede o tamanho do erro, não o quanto ele é audível, e por isso não serve como nota de qualidade de um codec perceptual.</p>
+  </div>
+
+  <div class="parte">
+  <h3 id="ancora">A âncora do teste</h3>
+  <figure>
+    <img class="grafico" src="img/graficos/audio_ancora.png" width="936" height="468" id="img-ancora" alt="Atenuação da âncora em relação à referência nas quatro pastas.">
+    <figcaption>Nível da âncora menos o nível da referência nas quatro pastas, comparado com o Butterworth de 2ª ordem em 3,5 kHz e com um passa-baixas ideal.</figcaption>
+  </figure>
+  <p>As curvas medidas seguem a do Butterworth de 2ª ordem até cerca de 5 kHz e depois se afastam aos poucos, ficando cerca de 3 dB abaixo dela em 10 kHz. É o efeito da transformação bilinear usada no filtro digital, que coloca um zero na frequência de Nyquist e aumenta a atenuação perto dela. Acima de 12 kHz as curvas de G2 e G3 sobem porque ali a referência já está no piso de ruído e a razão perde o sentido. A âncora corta os agudos de forma gradual e é bem menos degradada do que a âncora de 3,5 kHz da BS.1534, que deveria ser o pior estímulo com folga.</p>
+  </div>
+
+  <div class="parte">
+  <h3 id="pacote">Pacote anônimo e conferência do gabarito</h3>
+  <p>Cada pacote tem a referência identificada e seis estímulos <code>S01</code> a <code>S06</code>. Para ter certeza de que o gabarito descreve os arquivos que estão na pasta, o script compara cada estímulo com a referência, com a âncora refeita com o mesmo filtro e com as quatro versões codificadas, e escolhe a mais parecida (maior SNR após alinhar).</p>
+  <div class="rolagem">
+    <table class="larga" id="tab-pacote"><caption>Pacote anônimo</caption></table>
+  </div>
+  <p>Nas quatro pastas os 24 estímulos batem com o gabarito. Um detalhe: o estímulo AAC é sempre um pouco mais longo que os outros (de 208 a 869 amostras a mais, conforme a pasta). O AAC trabalha em quadros de 1.024 amostras e o último quadro é completado com silêncio, que a decodificação não removeu por inteiro. Um avaliador atento poderia notar isso pelo tamanho do arquivo, não pelo som.</p>
+  </div>
+
+  <div class="parte">
+  <h3 id="notas-audio">Notas da avaliação MUSHRA-like</h3>
+  <p>Cada pacote foi avaliado por 4 ou 5 participantes. A tabela traz a nota média de cada condição, com o número de notas entre parênteses. O seletor mostra também o resultado só com quem passou na triagem da BS.1534, ou seja, quem deu 90 ou mais à referência oculta: <span data-k="n_triados" data-d="0">9</span> dos <span data-k="n_part" data-d="0">18</span> participantes, nenhum deles no pacote G4.</p>
+  <div class="controles">
+    <label>Participantes
+      <select id="sel-triagem" aria-controls="tab-resumo-audio">
+        <option value="todos">Todos</option>
+        <option value="triados">Só os aprovados na triagem</option>
+      </select>
+    </label>
+  </div>
+  <p class="sr" aria-live="polite" id="aviso-triagem"></p>
+  <div class="rolagem">
+    <table class="larga" id="tab-resumo-audio"><caption>Nota média por condição e pacote</caption></table>
+  </div>
+  <figure>
+    <img class="grafico" src="img/graficos/audio_notas.png" width="1248" height="858" id="img-notas" alt="Notas médias por condição nos quatro pacotes.">
+    <figcaption>Barras: nota média por condição em cada pacote. Pontos: notas individuais. Referência oculta e âncora em laranja.</figcaption>
+  </figure>
+  <p><strong>Fala (G2 e G3).</strong> O resultado é o esperado para um teste MUSHRA. As versões a 128 kbit/s ficaram no nível da referência oculta: na G2, MP3 <span data-k="res_audio.G2.cond.mp3_128k.todos.media" data-u="">91,0</span> e Vorbis <span data-k="res_audio.G2.cond.vorbis_128k.todos.media" data-u="">93,8</span> contra <span data-k="res_audio.G2.cond.REF_OCULTA.todos.media" data-u="">90,2</span> da referência; na G3, <span data-k="res_audio.G3.cond.mp3_128k.todos.media">98,8</span> e <span data-k="res_audio.G3.cond.vorbis_128k.todos.media">99,5</span> contra <span data-k="res_audio.G3.cond.REF_OCULTA.todos.media">93,0</span>. O MP3 a 48 kbit/s caiu para <span data-k="res_audio.G2.cond.mp3_48k.todos.media">44,4</span> e <span data-k="res_audio.G3.cond.mp3_48k.todos.media">29,5</span>. Em fala, os participantes não distinguiram 128 kbit/s do original, e distinguiram com folga 48 kbit/s.</p>
+  <p><strong>Canto (G1).</strong> As notas ficaram comprimidas no meio da escala: referência <span data-k="res_audio.G1.cond.REF_OCULTA.todos.media">80,6</span>, versões a 128 kbit/s entre <span data-k="res_audio.G1.cond.mp3_128k.todos.media">62,8</span> e <span data-k="res_audio.G1.cond.vorbis_128k.todos.media">67,4</span>, versões a 48 kbit/s entre <span data-k="res_audio.G1.cond.mp3_48k.todos.media">41,0</span> e <span data-k="res_audio.G1.cond.aac_48k.todos.media">57,2</span>, com desvio padrão de até <span data-k="res_audio.G1.cond.aac_48k.todos.dp">28,2</span> pontos. A ordem continua certa (referência, 128 kbit/s, 48 kbit/s), mas com menos consenso. O trio vocal captado a 1 m tem muita sala na gravação e a referência já tinha passado por MP3, o que deixa as versões mais parecidas entre si. Além disso, os cinco participantes desse pacote ouviram com um headset Bluetooth, que recodifica o áudio antes de chegar ao ouvido e também aproxima as versões.</p>
+  <p><strong>Fala com ruído e saturação (G4).</strong> Nenhum participante deu 90 ou mais à referência oculta, que ficou com média <span data-k="res_audio.G4.cond.REF_OCULTA.todos.media">40,5</span>. Os participantes julgaram a qualidade absoluta do material, que tem saturação e conversas ao fundo, e não a diferença para a referência: um deles achou a referência "a voz está mecanizada". Pela triagem da BS.1534, esse pacote precisaria de novos avaliadores. Mesmo assim o AAC a 48 kbit/s ficou claramente abaixo de tudo (<span data-k="res_audio.G4.cond.aac_48k.todos.media">4,3</span>).</p>
+  <p><strong>A âncora confirma a medida.</strong> A média geral da âncora foi <span data-k="res_audio_geral.ANCORA.media">50,1</span>, acima do MP3 a 48 kbit/s (<span data-k="res_audio_geral.mp3_48k.media">37,1</span>), e ela superou o MP3 a 48 kbit/s em G1, G2 e G3. Era de se esperar pelo filtro de 2 polos medido na seção <a href="#ancora">A âncora do teste</a>: ela abafa, mas não acrescenta o ruído de quantização nem a distorção do codificador.</p>
+  <p><strong>A SNR não prevê a nota.</strong> O AAC a 48 kbit/s tem a menor SNR em todos os pacotes, mas teve nota maior que o MP3 a 48 kbit/s em G1 (<span data-k="res_audio.G1.cond.aac_48k.todos.media">57,2</span> contra <span data-k="res_audio.G1.cond.mp3_48k.todos.media">41,0</span>) e em G3 (<span data-k="res_audio.G3.cond.aac_48k.todos.media">75,0</span> contra <span data-k="res_audio.G3.cond.mp3_48k.todos.media">29,5</span>).</p>
+  <p><strong>O que os participantes ouviram.</strong> Nos comentários, "abafado" e "chiado" aparecem sobretudo para o MP3 a 48 kbit/s e para a âncora. Voz "robótica", "metálica" ou "mecanizada" aparece em 5 dos 18 comentários do MP3 a 48 kbit/s e no máximo uma vez nas outras condições, o efeito típico de um codificador com poucos bits por banda. Nas versões a 128 kbit/s predomina "nenhuma diferença". Dois participantes acharam a referência oculta "mais nítida" ou "até melhor que o original", sinal de que o próprio original deixa dúvida em quem não o conhece.</p>
+  <div class="controles">
+    <label>Comentários do pacote
+      <select id="sel-obs-audio" aria-controls="tab-obs-audio">
+        <option value="G1">G1: canto</option>
+        <option value="G2">G2: fala a 15 cm</option>
+        <option value="G3">G3: fala a 180 graus</option>
+        <option value="G4">G4: fala com ruído</option>
+      </select>
+    </label>
+  </div>
+  <div class="rolagem">
+    <table class="larga" id="tab-obs-audio"><caption>Notas e comentários</caption></table>
+  </div>
+  </div>
+</section>
+
+<!-- ============================================================ PARTE B -->
+<section id="imagem" aria-labelledby="t-imagem">
+  <h2 id="t-imagem">Parte B: compressão JPEG e avaliação de imagens</h2>
+
+  <div class="parte">
+  <h3 id="captacao">Captação</h3>
+  <figure>
+    <img src="img/lab4/coletiva.png" width="640" height="480" alt="Composição coletiva captada pela webcam: quatro integrantes do grupo em frente a uma parede branca, segurando bichos de pelúcia (um boneco amarelo, um bicho rosa com olhos grandes e um cachorro marrom de orelhas compridas). Ao fundo aparecem monitores do laboratório.">
+    <figcaption>Composição coletiva, 640 por 480 pixels, PNG de <span data-k="img.806.2.bytes_original" data-d="0">453.022</span> bytes. É a imagem usada nos gráficos de regiões, nos recortes e no comparador.</figcaption>
+  </figure>
+  <p>As cinco fotos foram feitas com a função de captura do Lab4.2 em <time datetime="2026-10-15">15/10/2026</time> (o horário está no nome do arquivo, em segundos Unix). Quatro são retratos com pelúcias e uma é a composição coletiva. Todas têm 640 por 480 pixels, a resolução da webcam, e foram salvas em PNG (sem perdas). Publicamos aqui só a composição coletiva: nas outras quatro aparecem outras pessoas do laboratório ao fundo, e o roteiro pede para não divulgar imagens identificáveis sem autorização. As medidas das cinco estão na tabela.</p>
+  <p>O roteiro sugere processar uma foto própria e uma imagem contrastante do banco de imagens do Lab 2. Esse arquivo não estava na pasta do Lab 4, então as cinco imagens processadas são fotos da webcam.</p>
+  </div>
+
+  <div class="parte">
+  <h3 id="jpeg">Compressão: tamanho, redução e fidelidade</h3>
+  <div class="rolagem">
+    <table class="larga" id="tab-jpeg"><caption>Versões JPEG das cinco fotos</caption></table>
+  </div>
+  <figure>
+    <img class="grafico" src="img/graficos/img_tamanho_psnr.png" width="1248" height="468" id="img-tamanho" alt="Tamanho do JPEG por parâmetro q e PSNR por bits por pixel.">
+    <figcaption>Esquerda: tamanho do JPEG em função de <code>-q:v</code> (escala logarítmica). Direita: PSNR em função dos bits por pixel. Em laranja, a composição coletiva.</figcaption>
+  </figure>
+  <p>O PNG já é uma compressão sem perdas: a imagem bruta tem 640 × 480 × 3 = 921.600 bytes e o PNG fica com cerca de metade. Medida em relação ao PNG, a redução do JPEG é de <span data-k="media.2.reducao_pct" data-u=" %">80,5 %</span> com q=2, <span data-k="media.20.reducao_pct" data-u=" %">95,7 %</span> com q=20 e <span data-k="media.31.reducao_pct" data-u=" %">96,4 %</span> com q=31 (média das cinco fotos). A maior parte do ganho acontece entre q=2 e q=20. De q=20 para q=31 a composição coletiva cai só de <span data-k="img.806.20.bytes_jpeg" data-d="0">19.712</span> para <span data-k="img.806.31.bytes_jpeg" data-d="0">16.352</span> bytes, mas perde mais <span data-k="dif_psnr_806" data-u=" dB">1,6 dB</span> de PSNR.</p>
+  <p>O FFmpeg gravou os três JPEGs com <code>yuvj444p</code>, ou seja, sem subamostragem de crominância. Câmeras e a maioria dos programas usam 4:2:0, que guarda só um quarto das amostras de cor. Os tamanhos aqui são, portanto, maiores do que seriam num JPEG comum com a mesma tabela de quantização.</p>
+  </div>
+
+  <div class="parte">
+  <h3 id="regioes">Onde aparecem as diferenças: texturas, bordas e áreas uniformes</h3>
+  <p>Para responder à questão (b) com dados, o script classifica cada bloco 8 por 8 da imagem original. Um terço dos blocos, os de menor desvio padrão, é "uniforme". Os demais são "borda" quando os gradientes apontam numa direção dominante (coerência do tensor de estrutura de 0,5 ou mais) e "textura" quando os gradientes apontam em várias direções.</p>
+  <figure>
+    <img src="img/graficos/img_mapa_regioes.jpg" width="1248" height="481" id="img-mapa" alt="Foto coletiva e mapa das classes dos blocos 8 por 8.">
+    <figcaption>Classes dos blocos na composição coletiva: azul para áreas uniformes (parede, fundo claro), verde para texturas (cabelo, pelúcia, roupas) e laranja para bordas (contornos de rostos, olhos das pelúcias, monitores).</figcaption>
+  </figure>
+  <figure>
+    <img class="grafico" src="img/graficos/img_psnr_regioes.png" width="936" height="442" id="img-classes" alt="PSNR da luminância por classe de bloco e por parâmetro q.">
+    <figcaption>PSNR da luminância por classe de bloco e por <code>-q:v</code>, média das cinco fotos.</figcaption>
+  </figure>
+  <figure>
+    <img class="grafico" src="img/graficos/img_recortes.png" width="1092" height="877" id="img-recortes" alt="Recortes ampliados do original e das três versões JPEG.">
+    <figcaption>Recortes de 64 por 48 pixels da composição coletiva ampliados sem interpolação: parede, cabelo e olho da pelúcia rosa.</figcaption>
+  </figure>
+  <p>Em números, o erro é muito menor nas áreas uniformes: com q=31 a PSNR média é <span data-k="media.31.classes.uniforme" data-u=" dB">45,6 dB</span> nelas e <span data-k="media.31.classes.textura" data-u=" dB">28,7 dB</span> e <span data-k="media.31.classes.borda" data-u=" dB">28,4 dB</span> em texturas e bordas. Nos recortes, porém, a parede de q=20 e q=31 mostra os blocos de 8 por 8 como degraus de cor: num fundo liso não há detalhe que esconda a fronteira entre blocos. O indicador de blocagem (salto médio de luminância nas fronteiras de bloco menos o salto dentro dos blocos) sobe de <span data-k="media.2.blocagem" data-d="2">0,63</span> com q=2 para <span data-k="media.31.blocagem" data-d="2">5,74</span> níveis de cinza com q=31. Nas texturas o erro é maior mas fica mascarado: o cabelo vira manchas lisas, o que só se percebe com zoom. Nas bordas aparece o ruído em volta dos contornos (o olho da pelúcia ganha halos e o branco do brilho se espalha), porque a quantização remove as altas frequências da DCT que formam a transição abrupta.</p>
+  </div>
+
+  <div class="parte">
+  <h3 id="pares">Avaliação por pares</h3>
+  <p>Os <span data-k="n_part" data-d="0">18</span> participantes compararam os três pares da composição coletiva (original contra q=2, 20 e 31, com o lado A ou B sorteado) na escala de diferença: 0 = imperceptível, 1 = discreta, 2 = evidente, 3 = muito evidente.</p>
+  <div class="rolagem">
+    <table class="larga" id="tab-notas-img"><caption>Diferença percebida por parâmetro JPEG</caption></table>
+  </div>
+  <figure>
+    <img class="grafico" src="img/graficos/img_notas.png" width="936" height="442" id="img-notas-img" alt="Distribuição das notas de diferença por parâmetro q.">
+    <figcaption>Quantos participantes deram cada nota de diferença, por versão.</figcaption>
+  </figure>
+  <p>A diferença percebida cresce com o <code>-q:v</code>: média de <span data-k="res_img.2.media" data-d="2">0,61</span> em q=2, com <span data-k="res_img.2.contagem.0" data-d="0">10</span> dos 18 participantes sem ver diferença; <span data-k="res_img.20.media" data-d="2">1,56</span> em q=20; e <span data-k="res_img.31.media" data-d="2">2,06</span> em q=31, com <span data-k="q31_2ou3" data-d="0">14</span> dos 18 dando 2 ou 3. A ordem é a mesma da PSNR (<span data-k="img.806.2.psnr" data-u=" dB">41,3 dB</span>, <span data-k="img.806.20.psnr" data-u=" dB">30,6 dB</span> e <span data-k="img.806.31.psnr" data-u=" dB">29,0 dB</span>).</p>
+  <p>Em q=20 e q=31 os comentários falam de perda de nitidez e de detalhes, de imagem "pixelada" ou "quadriculada" e de rostos borrados, as mesmas regiões que a análise por blocos aponta: pele e parede são áreas lisas onde os blocos de 8 por 8 aparecem, e cabelo e pelúcia perdem a textura. Em q=2, sete participantes citaram cor, brilho ou contraste, mas a diferença medida é muito pequena (PSNR de 41,3 dB). Como o teste não tinha par de controle com duas imagens iguais, não dá para separar uma diferença real de uma resposta de quem esperava achar alguma. Um participante deu 0 aos três pares.</p>
+  <div class="controles">
+    <label>Comentários da versão
+      <select id="sel-obs-img" aria-controls="tab-obs-img">
+        <option value="2">q=2</option>
+        <option value="20">q=20</option>
+        <option value="31" selected>q=31</option>
+      </select>
+    </label>
+  </div>
+  <div class="rolagem">
+    <table class="larga" id="tab-obs-img"><caption>Notas e comentários</caption></table>
+  </div>
+  </div>
+</section>
+
+<!-- ============================================================ TESTE CEGO -->
+<section id="teste-cego" aria-labelledby="t-teste">
+  <h2 id="t-teste">Teste cego no navegador (MUSHRA-like)</h2>
+  <p>Este teste repete o Lab4.4 com os arquivos reais de cada pasta. Os seis estímulos são a referência oculta, a âncora, MP3 a 48 e 128 kbit/s, AAC a 48 kbit/s e Vorbis a 128 kbit/s. Todos foram decodificados e gravados em FLAC (sem perdas), então tocam em qualquer navegador e o formato não revela o codec. A ordem é sorteada a cada rodada. Use fones de ouvido.</p>
+  <p>Escala: 100 = igual à referência, 0 = muito pior. Dê nota à qualidade, não à diferença.</p>
+  <div class="controles">
+    <label>Pasta
+      <select id="tc-rodada">
+        <option value="G1">G1: canto</option>
+        <option value="G2">G2: fala a 15 cm</option>
+        <option value="G3">G3: fala a 180 graus</option>
+        <option value="G4">G4: fala com ruído</option>
+      </select>
+    </label>
+    <label>Avaliador
+      <select id="tc-avaliador">
+        <option>A1</option><option>A2</option><option>A3</option><option>A4</option>
+      </select>
+    </label>
+    <button type="button" id="tc-novo">Novo sorteio</button>
+  </div>
+  <figure>
+    <figcaption><strong>Referência identificada</strong> (não recebe nota)</figcaption>
+    <audio id="tc-ref" controls preload="none"></audio>
+  </figure>
+  <div class="estimulos" id="tc-lista"></div>
+  <div class="controles">
+    <button type="button" id="tc-revelar">Revelar condições</button>
+    <button type="button" id="tc-csv" disabled>Baixar CSV</button>
+  </div>
+  <p class="sr" aria-live="polite" id="tc-aviso"></p>
+  <div class="rolagem">
+    <table id="tc-resultado" hidden><caption>Suas notas e as condições sorteadas</caption></table>
+  </div>
+  <p>O CSV sai no mesmo formato do Lab4.4 (<code>grupo_avaliador, grupo_produtor, avaliador, estimulo, nota_0_100</code>), com o nome da condição numa coluna a mais. As notas não ficam salvas na página.</p>
+
+  <h3 id="ouvir">Ouvir todas as versões identificadas</h3>
+  <p>Versões da pasta escolhida em <a href="#codificacao">Codificação</a>, incluindo AAC a 128 kbit/s e Vorbis a 48 kbit/s, que não entram no pacote.</p>
+  <div class="lista-audio" id="lista-versoes"></div>
+</section>
+
+<!-- ============================================================ COMPARADOR -->
+<section id="comparador" aria-labelledby="t-comparador">
+  <h2 id="t-comparador">Comparador de imagem</h2>
+  <p>Escolha a versão JPEG e o modo de exibição. Clique na foto para escolher o trecho ampliado, ou digite as coordenadas do canto superior esquerdo.</p>
+  <div class="controles">
+    <label>Versão
+      <select id="cmp-q">
+        <option value="2">q=2</option>
+        <option value="20" selected>q=20</option>
+        <option value="31">q=31</option>
+      </select>
+    </label>
+    <label>Modo da foto
+      <select id="cmp-modo">
+        <option value="jpeg">JPEG</option>
+        <option value="original">Original PNG</option>
+        <option value="dif">Diferença ampliada 8 vezes</option>
+      </select>
+    </label>
+    <label>x (0 a 576)
+      <input type="number" id="cmp-x" min="0" max="576" step="8" value="520">
+    </label>
+    <label>y (0 a 432)
+      <input type="number" id="cmp-y" min="0" max="432" step="8" value="24">
+    </label>
+    <fieldset>
+      <legend>Atalhos</legend>
+      <button type="button" data-reg="parede (uniforme)">Parede</button>
+      <button type="button" data-reg="cabelo (textura)">Cabelo</button>
+      <button type="button" data-reg="olho da pelúcia (bordas)">Olho</button>
+    </fieldset>
+  </div>
+  <div class="comparador">
+    <figure>
+      <canvas id="cmp-foto" class="foto" width="640" height="480" role="img" aria-label="Composição coletiva na versão escolhida, com um retângulo marcando o trecho ampliado."></canvas>
+      <figcaption id="cmp-cap">Foto inteira. O retângulo laranja marca o trecho ampliado.</figcaption>
+    </figure>
+    <div>
+      <div class="zoom-par">
+        <figure>
+          <canvas id="cmp-z1" class="zoom" width="64" height="48" role="img" aria-label="Trecho ampliado do original PNG."></canvas>
+          <figcaption>Original PNG</figcaption>
+        </figure>
+        <figure>
+          <canvas id="cmp-z2" class="zoom" width="64" height="48" role="img" aria-label="Trecho ampliado da versão JPEG."></canvas>
+          <figcaption id="cmp-z2-cap">JPEG q=20</figcaption>
+        </figure>
+      </div>
+      <dl class="ficha-num" id="cmp-ficha"></dl>
+      <p class="sr" aria-live="polite" id="cmp-aviso"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ QUADRO -->
+<section id="quadro" aria-labelledby="t-quadro">
+  <h2 id="t-quadro">Quadro comparativo: redução de dados, medida objetiva e nota percebida</h2>
+  <p>O roteiro pede tabelas de codec, taxa e tamanho para áudio e de parâmetro JPEG, tamanho e redução para imagem, ao lado das notas. O quadro abaixo junta as médias das pastas com as notas da avaliação externa.</p>
+  <div class="rolagem">
+    <table class="larga" id="tab-quadro-audio"><caption>Áudio: média das quatro pastas</caption></table>
+  </div>
+  <div class="rolagem">
+    <table class="larga" id="tab-quadro-img"><caption>Imagem: média das cinco fotos</caption></table>
+  </div>
+  <figure>
+    <img class="grafico" src="img/graficos/reducao_percepcao.png" width="1248" height="494" id="img-reducao" alt="Nota média em função da redução de dados, para áudio e imagem.">
+    <figcaption>Esquerda: nota média de cada condição de áudio contra a redução sobre o WAV, por pacote. Direita: diferença percebida média (com desvio padrão) contra a redução sobre o PNG, na composição coletiva.</figcaption>
+  </figure>
+</section>
+
+<!-- ============================================================ QUESTÕES -->
+<section id="questoes" aria-labelledby="t-questoes">
+  <h2 id="t-questoes">Questões do roteiro</h2>
+
+  <div class="resposta">
+    <h3>a) Que artefatos foram percebidos em áudio com diferentes taxas e codecs? Eles dependem do tipo de sinal?</h3>
+    <p>A 48 kbit/s os participantes descreveram sobretudo som abafado e chiado, e no MP3 também voz "robótica" ou "metálica" (5 dos 18 comentários). O abafamento bate com a medida: MP3 e AAC a 48 kbit/s cortam a partir de 7,0 a 7,6 kHz. A voz robótica é o efeito de quantizar as bandas com poucos bits, que deixa componentes aparecendo e sumindo de um quadro para o outro. A 128 kbit/s a resposta mais comum foi "nenhuma diferença": nos pacotes de fala G2 e G3, MP3 e Vorbis a 128 kbit/s tiveram nota igual ou maior que a da referência oculta.</p>
+    <p>Dependem do sinal, sim. Na fala (G2 e G3) a separação entre 48 e 128 kbit/s é nítida. No canto do trio (G1), com reverberação da sala e referência que já era MP3, as notas ficaram comprimidas e com mais divergência. Na fala com ruído e saturação (G4), os defeitos da própria gravação dominaram e os participantes deram notas baixas até à referência. O codificador também se adapta ao sinal: o Vorbis a 128 kbit/s usou <span data-k="rodadas.G1.versoes.vorbis_128k.kbps_arquivo" data-u=" kbit/s">133,9 kbit/s</span> no canto e <span data-k="rodadas.G2.versoes.vorbis_128k.kbps_arquivo" data-u=" kbit/s">115,7 kbit/s</span> na fala próxima.</p>
+  </div>
+
+  <div class="resposta">
+    <h3>b) Em quais regiões das imagens aparecem diferenças mais evidentes: texturas, bordas ou áreas uniformes?</h3>
+    <p>O erro numérico é maior em texturas e bordas: com q=31 a PSNR cai para <span data-k="media.31.classes.textura" data-u=" dB">28,7 dB</span> nas texturas e <span data-k="media.31.classes.borda" data-u=" dB">28,4 dB</span> nas bordas, contra <span data-k="media.31.classes.uniforme" data-u=" dB">45,6 dB</span> nas áreas uniformes. O que os participantes apontaram, porém, foram os rostos e a parede, ou seja, áreas lisas e gradientes suaves onde a blocagem aparece porque nada a mascara, e a perda de detalhe no cabelo e na pelúcia. Nas bordas, como o olho da pelúcia, aparece ruído em volta do contorno, visível com zoom no comparador.</p>
+  </div>
+
+  <div class="resposta">
+    <h3>c) Como a redução percentual de dados se relaciona com as notas de qualidade percebida?</h3>
+    <p>A relação não é linear: os últimos pontos percentuais de redução são os que mais custam. No áudio, passar de 128 para 48 kbit/s aumenta a redução de cerca de 91 % para 96,5 %, só 5,5 pontos a mais, e a nota média geral cai de <span data-k="res_audio_geral.mp3_128k.media">72,6</span> para <span data-k="res_audio_geral.mp3_48k.media">37,1</span> no MP3. Nos pacotes de fala G2 e G3 o MP3 cai de 91 a 99 pontos, a 128 kbit/s, para 30 a 44 pontos, a 48 kbit/s. Na imagem, de q=2 para q=20 a redução sobe <span data-k="dif_red_2_20" data-u=" pontos percentuais">16,6 pontos percentuais</span> e a diferença percebida sobe <span data-k="dif_nota_2_20" data-d="2">0,95</span>; de q=20 para q=31 a redução sobe só <span data-k="dif_red_20_31" data-u=" ponto percentual">0,7 ponto percentual</span> e a diferença sobe mais <span data-k="dif_nota_20_31" data-d="2">0,50</span>. Por ponto percentual economizado, o passo de q=20 para q=31 custa mais de dez vezes mais em qualidade percebida que o de q=2 para q=20.</p>
+  </div>
+
+  <div class="resposta">
+    <h3>d) Quais limitações decorrem do número de avaliadores, das condições de reprodução e da escala didática?</h3>
+    <ul>
+      <li><strong>Número de avaliadores.</strong> São 4 ou 5 participantes por pacote de áudio. Os desvios padrão passam de 25 pontos em várias condições, maiores que muitas das diferenças entre codecs, então as médias servem para ver tendências, não para classificar codecs. Na imagem são 18 respostas por versão, o que dá um resultado mais estável.</li>
+      <li><strong>Triagem.</strong> Só <span data-k="n_triados" data-d="0">9</span> dos 18 participantes deram 90 ou mais à referência oculta. Com a regra da BS.1534, o pacote G4 ficaria sem nenhum avaliador.</li>
+      <li><strong>Reprodução.</strong> Cada participante usou o próprio fone e ambiente. Oito participantes ouviram com fones Bluetooth (os cinco do pacote G1, com o headset Logitech Zone Vibe 100, e três dos quatro do G4), e o áudio Bluetooth passa por outro codec com perdas (SBC ou AAC) antes de chegar ao ouvido, o que se soma ao que está sendo avaliado. Um participante ouviu numa biblioteca com pessoas conversando.</li>
+      <li><strong>Material.</strong> As referências G1 e G2 já tinham sido codificadas em MP3, a G4 tem saturação e os trechos G2 e G3 têm só 7,3 e 4,4 s.</li>
+      <li><strong>Escala e desenho do teste.</strong> Quem não conhece o MUSHRA tende a dar nota à qualidade absoluta, e não à diferença para a referência, como aconteceu no G4. A âncora de 2ª ordem ficou acima do MP3 a 48 kbit/s e não marcou o fundo da escala. AAC e Vorbis só aparecem em uma taxa cada. No teste de imagem não havia par de controle (duas imagens iguais) para medir respostas sem diferença real. São escalas didáticas: servem para explorar, não para classificar codecs.</li>
+      <li><strong>Medidas objetivas.</strong> PSNR, SSIM e SNR não medem percepção. A SNR do AAC a 48 kbit/s é a mais baixa, e mesmo assim ele teve nota maior que o MP3 a 48 kbit/s em dois pacotes.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================ CONCLUSÕES -->
+<section id="conclusoes" aria-labelledby="t-conclusoes">
+  <h2 id="t-conclusoes">Conclusões</h2>
+  <ol class="conclusoes">
+    <li><strong>Redução de dados no áudio.</strong> A 48 kbit/s os arquivos ficam com cerca de 3,5 % do tamanho do WAV (razão perto de 29 para 1) e a 128 kbit/s com cerca de 9 % (razão perto de 11 para 1). O MP3 tem taxa constante e tamanho previsível; AAC e Vorbis variam com o conteúdo, de <span data-k="rodadas.G2.versoes.vorbis_128k.kbps_arquivo" data-u=" kbit/s">115,7</span> a <span data-k="rodadas.G1.versoes.vorbis_128k.kbps_arquivo" data-u=" kbit/s">133,9</span> no Vorbis a 128 kbit/s.</li>
+    <li><strong>Banda é o primeiro sacrifício.</strong> MP3 e AAC a 48 kbit/s cortam a partir de 7,0 a 7,6 kHz em todas as pastas; o Vorbis a 48 kbit/s vai até cerca de 14 kHz. A 128 kbit/s a banda útil é preservada, com corte do MP3 entre 15,8 e 16,6 kHz onde a referência tem conteúdo nessa faixa.</li>
+    <li><strong>SNR não é qualidade.</strong> As versões codificadas têm SNR entre 8 e 26 dB. AAC e MP3 a 48 kbit/s cortam a banda no mesmo ponto, mas o AAC tem SNR de 2 a 7 dB menor. O codificador perceptual aceita erro grande desde que mascarado.</li>
+    <li><strong>A âncora tem corte gradual.</strong> O <code>lowpass</code> do FFmpeg tem 2 polos: atenua <span data-k="rodadas.G1.ancora.a7k" data-u=" dB">-13,4 dB</span> em 7 kHz e <span data-k="rodadas.G1.ancora.a10k" data-u=" dB">-21,1 dB</span> em 10 kHz, longe do corte abrupto da BS.1534. Na avaliação externa ela ficou acima do MP3 a 48 kbit/s em três dos quatro pacotes.</li>
+    <li><strong>Em fala, 128 kbit/s não se distingue do original.</strong> Nos pacotes G2 e G3, MP3 e Vorbis a 128 kbit/s tiveram notas de <span data-k="res_audio.G2.cond.mp3_128k.todos.media">91,0</span> a <span data-k="res_audio.G3.cond.vorbis_128k.todos.media">99,5</span>, no nível da referência oculta, e o MP3 a 48 kbit/s ficou entre <span data-k="res_audio.G3.cond.mp3_48k.todos.media">29,5</span> e <span data-k="res_audio.G2.cond.mp3_48k.todos.media">44,4</span>. Os comentários descrevem o 48 kbit/s como abafado, com chiado e, no MP3, com voz robótica.</li>
+    <li><strong>O material e a escuta pesam tanto quanto o codec.</strong> No canto (G1) as notas ficaram comprimidas, e na gravação saturada e ruidosa (G4) a referência oculta teve média de <span data-k="res_audio.G4.cond.REF_OCULTA.todos.media">40,5</span> e nenhum participante passou na triagem. Só <span data-k="n_triados" data-d="0">9</span> dos 18 participantes deram 90 ou mais à referência oculta.</li>
+    <li><strong>As referências precisam ser escolhidas com cuidado.</strong> G1 e G2 vieram de MP3 (degrau de <span data-k="rodadas.G1.degrau_hf.0" data-u=" dB">23,0 dB</span> e <span data-k="rodadas.G2.degrau_hf.0" data-u=" dB">17,7 dB</span> no espectro), G4 tem <span data-k="rodadas.G4.pct_fundo_escala" data-d="2" data-u=" %">1,75 %</span> dos instantes saturados e G2 e G3 têm menos de 10 s.</li>
+    <li><strong>JPEG: q=20 concentra quase todo o ganho.</strong> Em relação ao PNG, a redução média é de <span data-k="media.2.reducao_pct" data-u=" %">80,5 %</span>, <span data-k="media.20.reducao_pct" data-u=" %">95,7 %</span> e <span data-k="media.31.reducao_pct" data-u=" %">96,4 %</span> para q=2, 20 e 31, com PSNR média de <span data-k="media.2.psnr" data-u=" dB">41,7 dB</span>, <span data-k="media.20.psnr" data-u=" dB">31,3 dB</span> e <span data-k="media.31.psnr" data-u=" dB">29,7 dB</span>.</li>
+    <li><strong>A diferença percebida na imagem segue o q.</strong> Média de <span data-k="res_img.2.media" data-d="2">0,61</span>, <span data-k="res_img.20.media" data-d="2">1,56</span> e <span data-k="res_img.31.media" data-d="2">2,06</span> na escala de 0 a 3 para q=2, 20 e 31. O passo de q=20 para q=31 economiza só 0,7 ponto percentual e custa 0,50 ponto de diferença percebida.</li>
+    <li><strong>Erro e visibilidade não coincidem nas imagens.</strong> Texturas e bordas concentram o erro (PSNR perto de 28 dB com q=31), mas os participantes apontaram rostos e parede, áreas lisas onde a blocagem fica visível.</li>
+  </ol>
+</section>
+
+<!-- ============================================================ REFERÊNCIAS -->
+<section id="referencias" aria-labelledby="t-referencias">
+  <h2 id="t-referencias">Referências</h2>
+  <ol>
+    <li>KURASHIMA, C.; MINAMI. <em>Lab 4: Codificação com perdas de áudio e imagem.</em> Roteiro e notebooks Lab4.1 a Lab4.5. ESFI001, UFABC, 2026.</li>
+    <li>ITU-R. <a href="https://www.itu.int/rec/R-REC-BS.1534"><em>Recommendation BS.1534: Method for the subjective assessment of intermediate quality level of audio systems (MUSHRA)</em></a>.</li>
+    <li>FFMPEG. <a href="https://ffmpeg.org/ffmpeg-filters.html#lowpass"><em>FFmpeg Filters Documentation: lowpass</em></a>.</li>
+    <li>FFMPEG. <a href="https://trac.ffmpeg.org/wiki/Encode/MP3"><em>Encode/MP3</em></a> e <a href="https://trac.ffmpeg.org/wiki/Encode/AAC"><em>Encode/AAC</em></a>.</li>
+    <li>WALLACE, G. K. The JPEG still picture compression standard. <em>IEEE Transactions on Consumer Electronics</em>, v. 38, n. 1, 1992.</li>
+    <li>WANG, Z. et al. Image quality assessment: from error visibility to structural similarity. <em>IEEE Transactions on Image Processing</em>, v. 13, n. 4, 2004.</li>
+    <li>Grupo 3. <a href="https://lab3-csm-3q2026.netlify.app/lab3/"><em>Lab 3: Testes em microfones e captação multimídia em situação real</em></a>. Fonte das gravações usadas como referência.</li>
+    <li>Grupo 3. <a href="https://drive.google.com/drive/folders/1Uq_4UB5OdG4508TN57uqHbkFDcuyTru-?usp=drive_link"><em>Pasta de ações extensionistas</em></a>. Google Drive.</li>
+  </ol>
+</section>
+
+</main>
+
+<footer>
+  <div class="largura">
+    <p>Grupo 3, ESFI001 (CSM), UFABC, 3º quadrimestre de 2026. Medidas, gráficos e áudios gerados por <a href="codigo/analise_lab4.py">analise_lab4.py</a> a partir das pastas G1 a G4 do Drive e das planilhas da avaliação externa. <a href="https://drive.google.com/drive/folders/1Uq_4UB5OdG4508TN57uqHbkFDcuyTru-?usp=drive_link">Ações extensionistas</a>. Outros relatórios: <a href="https://lab3-csm-3q2026.netlify.app/lab1/">Lab 1</a>, <a href="https://lab3-csm-3q2026.netlify.app/lab2/">Lab 2</a> e <a href="https://lab3-csm-3q2026.netlify.app/lab3/">Lab 3</a>. <a href="../">Portal do grupo</a>.</p>
+  </div>
+</footer>
+
+<script src="js/dados.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
